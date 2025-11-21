@@ -1,0 +1,568 @@
+[
+    {
+        "id": "ca9ae595a7e61512",
+        "type": "tab",
+        "label": "Criar usuario",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Flow Teste",
+        "disabled": false,
+        "info": "",
+        "env": [
+            {
+                "name": "Key1",
+                "value": "Key",
+                "type": "str"
+            }
+        ]
+    },
+    {
+        "id": "a556cd8794a47425",
+        "type": "subflow",
+        "name": "Busca data atual",
+        "info": "",
+        "category": "",
+        "in": [],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "26071de6e653e72d",
+        "type": "subflow",
+        "name": "SubflowCheckRole",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 160,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "69cb85ca8f24eaf7"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 600,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "69cb85ca8f24eaf7",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 580,
+                "y": 220,
+                "wires": [
+                    {
+                        "id": "11fc7367bde99b4e",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99",
+        "outputLabels": [
+            "Sucess",
+            "Fail"
+        ]
+    },
+    {
+        "id": "639be31858c48416",
+        "type": "MySQLdatabase",
+        "name": "Local Database DB",
+        "host": "172.20.0.2",
+        "port": "3306",
+        "db": "TesteNodeRed",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "69cb85ca8f24eaf7",
+        "type": "function",
+        "z": "26071de6e653e72d",
+        "name": "throw error",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "// Code added here will be run when the\n// node is being stopped or re-deployed.\n\n// throw new Error(\"Erro generico\")",
+        "libs": [],
+        "x": 350,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "11fc7367bde99b4e",
+        "type": "catch",
+        "z": "26071de6e653e72d",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 360,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9266b745ccdeeb81",
+        "type": "http in",
+        "z": "ca9ae595a7e61512",
+        "name": "",
+        "url": "/pessoa",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 480,
+        "wires": [
+            [
+                "10196371f7b97629"
+            ]
+        ]
+    },
+    {
+        "id": "ddaa82b8041208f8",
+        "type": "inject",
+        "z": "ca9ae595a7e61512",
+        "name": "Create Table",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "CREATE TABLE IF NOT EXISTS pessoa (     id TIMESTAMP DEFAULT CURRENT_TIMESTAMP PRIMARY KEY,     nome VARCHAR(150) NOT NULL,     idade INT );",
+        "x": 210,
+        "y": 60,
+        "wires": [
+            [
+                "d93b8ee599b86f8c"
+            ]
+        ]
+    },
+    {
+        "id": "d93b8ee599b86f8c",
+        "type": "mysql",
+        "z": "ca9ae595a7e61512",
+        "mydb": "639be31858c48416",
+        "name": "MYSQL DB",
+        "x": 450,
+        "y": 140,
+        "wires": [
+            [
+                "a012c7f3768b6e56"
+            ]
+        ]
+    },
+    {
+        "id": "a012c7f3768b6e56",
+        "type": "debug",
+        "z": "ca9ae595a7e61512",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "33b5420a0cb6109f",
+        "type": "inject",
+        "z": "ca9ae595a7e61512",
+        "name": "DELETE Table",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "DROP TABLE IF EXISTS pessoa;",
+        "x": 200,
+        "y": 140,
+        "wires": [
+            [
+                "d93b8ee599b86f8c"
+            ]
+        ]
+    },
+    {
+        "id": "4ab7ba5def81812d",
+        "type": "catch",
+        "z": "ca9ae595a7e61512",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 620,
+        "y": 580,
+        "wires": [
+            [
+                "a9a9959e3ec1b76b",
+                "0d350c610634a37d"
+            ]
+        ]
+    },
+    {
+        "id": "a9a9959e3ec1b76b",
+        "type": "debug",
+        "z": "ca9ae595a7e61512",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "a435270cb60c503a",
+        "type": "inject",
+        "z": "ca9ae595a7e61512",
+        "name": "INSERT TABLE",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "INSERT INTO pessoa (nome, idade) VALUES ('Maria Silva', 28);",
+        "x": 200,
+        "y": 240,
+        "wires": [
+            [
+                "d93b8ee599b86f8c"
+            ]
+        ]
+    },
+    {
+        "id": "0f42a0b06b8242d4",
+        "type": "inject",
+        "z": "ca9ae595a7e61512",
+        "name": "SELECT TABLE",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 180,
+        "y": 420,
+        "wires": [
+            [
+                "10196371f7b97629"
+            ]
+        ]
+    },
+    {
+        "id": "36c65348f7bcf86c",
+        "type": "mysql",
+        "z": "ca9ae595a7e61512",
+        "mydb": "639be31858c48416",
+        "name": "MYSQL DB",
+        "x": 570,
+        "y": 480,
+        "wires": [
+            [
+                "b6b6c7b8b35be5ef",
+                "fe562453dfd27851"
+            ]
+        ]
+    },
+    {
+        "id": "10196371f7b97629",
+        "type": "change",
+        "z": "ca9ae595a7e61512",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "SELECT * FROM pessoa;",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 370,
+        "y": 480,
+        "wires": [
+            [
+                "36c65348f7bcf86c"
+            ]
+        ]
+    },
+    {
+        "id": "b6b6c7b8b35be5ef",
+        "type": "http response",
+        "z": "ca9ae595a7e61512",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 860,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "0d350c610634a37d",
+        "type": "http response",
+        "z": "ca9ae595a7e61512",
+        "name": "",
+        "statusCode": "400",
+        "headers": {},
+        "x": 880,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "fe562453dfd27851",
+        "type": "debug",
+        "z": "ca9ae595a7e61512",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "d14923cf7c882cc6",
+        "type": "inject",
+        "z": "ca9ae595a7e61512",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "DESCRIBE pessoa;",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 780,
+        "wires": [
+            [
+                "7fe94787b9b88fb7"
+            ]
+        ]
+    },
+    {
+        "id": "7fe94787b9b88fb7",
+        "type": "mysql",
+        "z": "ca9ae595a7e61512",
+        "mydb": "639be31858c48416",
+        "name": "MYSQL DB",
+        "x": 470,
+        "y": 780,
+        "wires": [
+            [
+                "2c71e3f989b1dcfa"
+            ]
+        ]
+    },
+    {
+        "id": "2c71e3f989b1dcfa",
+        "type": "debug",
+        "z": "ca9ae595a7e61512",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "fb68f4952ee859d3",
+        "type": "http in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "url": "/teste",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 240,
+        "wires": [
+            [
+                "28831bec9dcc3c28"
+            ]
+        ]
+    },
+    {
+        "id": "28831bec9dcc3c28",
+        "type": "change",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "statusCode",
+                "pt": "msg",
+                "to": "209",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.nome",
+                "pt": "msg",
+                "to": "Jose",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.sobrenome",
+                "pt": "msg",
+                "to": "Augusto",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.nome_completo",
+                "pt": "msg",
+                "to": "payload.nome & \" \" & payload.sobrenome ",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 240,
+        "wires": [
+            [
+                "65cdd8a509f1a7b2"
+            ]
+        ]
+    },
+    {
+        "id": "65cdd8a509f1a7b2",
+        "type": "http response",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 590,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "86f84316d43d4d6d",
+        "type": "http in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "url": "/teste",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 380,
+        "wires": [
+            [
+                "e4cb36bbfdf34b5c"
+            ]
+        ]
+    },
+    {
+        "id": "e4cb36bbfdf34b5c",
+        "type": "subflow:26071de6e653e72d",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "x": 350,
+        "y": 380,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "1251aa930e75fec2",
+        "type": "http response",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 550,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "10e046afeba7eadb",
+        "type": "catch",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 360,
+        "y": 440,
+        "wires": [
+            [
+                "1251aa930e75fec2"
+            ]
+        ]
+    }
+]

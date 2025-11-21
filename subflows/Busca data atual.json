@@ -1,0 +1,14 @@
+[
+  {
+    "id": "a556cd8794a47425",
+    "type": "subflow",
+    "name": "Busca data atual",
+    "info": "",
+    "category": "",
+    "in": [],
+    "out": [],
+    "env": [],
+    "meta": {},
+    "color": "#DDAA99"
+  }
+]

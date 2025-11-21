@@ -1,0 +1,80 @@
+[
+  {
+    "id": "26071de6e653e72d",
+    "type": "subflow",
+    "name": "SubflowCheckRole",
+    "info": "",
+    "category": "",
+    "in": [
+      {
+        "x": 160,
+        "y": 140,
+        "wires": [
+          {
+            "id": "69cb85ca8f24eaf7"
+          }
+        ]
+      }
+    ],
+    "out": [
+      {
+        "x": 600,
+        "y": 140,
+        "wires": [
+          {
+            "id": "69cb85ca8f24eaf7",
+            "port": 0
+          }
+        ]
+      },
+      {
+        "x": 580,
+        "y": 220,
+        "wires": [
+          {
+            "id": "11fc7367bde99b4e",
+            "port": 0
+          }
+        ]
+      }
+    ],
+    "env": [],
+    "meta": {},
+    "color": "#DDAA99",
+    "outputLabels": [
+      "Sucess",
+      "Fail"
+    ]
+  },
+  {
+    "id": "69cb85ca8f24eaf7",
+    "type": "function",
+    "z": "26071de6e653e72d",
+    "name": "throw error",
+    "func": "\nreturn msg;",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "// Code added here will be run when the\n// node is being stopped or re-deployed.\n\n// throw new Error(\"Erro generico\")",
+    "libs": [],
+    "x": 350,
+    "y": 140,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "11fc7367bde99b4e",
+    "type": "catch",
+    "z": "26071de6e653e72d",
+    "name": "",
+    "scope": null,
+    "uncaught": false,
+    "x": 360,
+    "y": 220,
+    "wires": [
+      []
+    ]
+  }
+]

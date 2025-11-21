@@ -1,0 +1,12 @@
+[
+  {
+    "id": "639be31858c48416",
+    "type": "MySQLdatabase",
+    "name": "Local Database DB",
+    "host": "172.20.0.2",
+    "port": "3306",
+    "db": "TesteNodeRed",
+    "tz": "",
+    "charset": "UTF8"
+  }
+]

@@ -1,0 +1,321 @@
+[
+  {
+    "id": "ca9ae595a7e61512",
+    "type": "tab",
+    "label": "Criar usuario",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "9266b745ccdeeb81",
+    "type": "http in",
+    "z": "ca9ae595a7e61512",
+    "name": "",
+    "url": "/pessoa",
+    "method": "get",
+    "upload": false,
+    "skipBodyParsing": false,
+    "swaggerDoc": "",
+    "x": 170,
+    "y": 480,
+    "wires": [
+      [
+        "10196371f7b97629"
+      ]
+    ]
+  },
+  {
+    "id": "ddaa82b8041208f8",
+    "type": "inject",
+    "z": "ca9ae595a7e61512",
+    "name": "Create Table",
+    "props": [
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "CREATE TABLE IF NOT EXISTS pessoa (     id TIMESTAMP DEFAULT CURRENT_TIMESTAMP PRIMARY KEY,     nome VARCHAR(150) NOT NULL,     idade INT );",
+    "x": 210,
+    "y": 60,
+    "wires": [
+      [
+        "d93b8ee599b86f8c"
+      ]
+    ]
+  },
+  {
+    "id": "d93b8ee599b86f8c",
+    "type": "mysql",
+    "z": "ca9ae595a7e61512",
+    "mydb": "639be31858c48416",
+    "name": "MYSQL DB",
+    "x": 450,
+    "y": 140,
+    "wires": [
+      [
+        "a012c7f3768b6e56"
+      ]
+    ]
+  },
+  {
+    "id": "a012c7f3768b6e56",
+    "type": "debug",
+    "z": "ca9ae595a7e61512",
+    "name": "debug 1",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "payload",
+    "targetType": "msg",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 780,
+    "y": 140,
+    "wires": []
+  },
+  {
+    "id": "33b5420a0cb6109f",
+    "type": "inject",
+    "z": "ca9ae595a7e61512",
+    "name": "DELETE Table",
+    "props": [
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "DROP TABLE IF EXISTS pessoa;",
+    "x": 200,
+    "y": 140,
+    "wires": [
+      [
+        "d93b8ee599b86f8c"
+      ]
+    ]
+  },
+  {
+    "id": "4ab7ba5def81812d",
+    "type": "catch",
+    "z": "ca9ae595a7e61512",
+    "name": "",
+    "scope": null,
+    "uncaught": false,
+    "x": 620,
+    "y": 580,
+    "wires": [
+      [
+        "a9a9959e3ec1b76b",
+        "0d350c610634a37d"
+      ]
+    ]
+  },
+  {
+    "id": "a9a9959e3ec1b76b",
+    "type": "debug",
+    "z": "ca9ae595a7e61512",
+    "name": "debug 2",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 860,
+    "y": 580,
+    "wires": []
+  },
+  {
+    "id": "a435270cb60c503a",
+    "type": "inject",
+    "z": "ca9ae595a7e61512",
+    "name": "INSERT TABLE",
+    "props": [
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "INSERT INTO pessoa (nome, idade) VALUES ('Maria Silva', 28);",
+    "x": 200,
+    "y": 240,
+    "wires": [
+      [
+        "d93b8ee599b86f8c"
+      ]
+    ]
+  },
+  {
+    "id": "0f42a0b06b8242d4",
+    "type": "inject",
+    "z": "ca9ae595a7e61512",
+    "name": "SELECT TABLE",
+    "props": [],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "x": 180,
+    "y": 420,
+    "wires": [
+      [
+        "10196371f7b97629"
+      ]
+    ]
+  },
+  {
+    "id": "36c65348f7bcf86c",
+    "type": "mysql",
+    "z": "ca9ae595a7e61512",
+    "mydb": "639be31858c48416",
+    "name": "MYSQL DB",
+    "x": 570,
+    "y": 480,
+    "wires": [
+      [
+        "b6b6c7b8b35be5ef",
+        "fe562453dfd27851"
+      ]
+    ]
+  },
+  {
+    "id": "10196371f7b97629",
+    "type": "change",
+    "z": "ca9ae595a7e61512",
+    "name": "",
+    "rules": [
+      {
+        "t": "set",
+        "p": "topic",
+        "pt": "msg",
+        "to": "SELECT * FROM pessoa;",
+        "tot": "str"
+      }
+    ],
+    "action": "",
+    "property": "",
+    "from": "",
+    "to": "",
+    "reg": false,
+    "x": 370,
+    "y": 480,
+    "wires": [
+      [
+        "36c65348f7bcf86c"
+      ]
+    ]
+  },
+  {
+    "id": "b6b6c7b8b35be5ef",
+    "type": "http response",
+    "z": "ca9ae595a7e61512",
+    "name": "",
+    "statusCode": "200",
+    "headers": {},
+    "x": 860,
+    "y": 480,
+    "wires": []
+  },
+  {
+    "id": "0d350c610634a37d",
+    "type": "http response",
+    "z": "ca9ae595a7e61512",
+    "name": "",
+    "statusCode": "400",
+    "headers": {},
+    "x": 880,
+    "y": 640,
+    "wires": []
+  },
+  {
+    "id": "fe562453dfd27851",
+    "type": "debug",
+    "z": "ca9ae595a7e61512",
+    "name": "debug 3",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 860,
+    "y": 420,
+    "wires": []
+  },
+  {
+    "id": "d14923cf7c882cc6",
+    "type": "inject",
+    "z": "ca9ae595a7e61512",
+    "name": "",
+    "props": [
+      {
+        "p": "payload"
+      },
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "DESCRIBE pessoa;",
+    "payload": "",
+    "payloadType": "date",
+    "x": 190,
+    "y": 780,
+    "wires": [
+      [
+        "7fe94787b9b88fb7"
+      ]
+    ]
+  },
+  {
+    "id": "7fe94787b9b88fb7",
+    "type": "mysql",
+    "z": "ca9ae595a7e61512",
+    "mydb": "639be31858c48416",
+    "name": "MYSQL DB",
+    "x": 470,
+    "y": 780,
+    "wires": [
+      [
+        "2c71e3f989b1dcfa"
+      ]
+    ]
+  },
+  {
+    "id": "2c71e3f989b1dcfa",
+    "type": "debug",
+    "z": "ca9ae595a7e61512",
+    "name": "debug 4",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 700,
+    "y": 780,
+    "wires": []
+  }
+]
